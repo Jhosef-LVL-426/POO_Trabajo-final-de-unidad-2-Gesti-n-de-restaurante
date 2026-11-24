@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="pe.edu.upeu.restaurante.controller.InsumoController" spacing="10">
+    <padding><Insets top="12" right="12" bottom="12" left="12"/></padding>
+    <children>
+        <Label text="Inventario de insumos" styleClass="titulo"/>
+        <Label text="Registra ingredientes y productos que tienes en el restaurante."/>
+        <Label text="Cantidad actual = lo que tienes. Cantidad mínima = desde cuándo necesitas comprar más."/>
+        <HBox spacing="8" alignment="CENTER_LEFT">
+            <children>
+                <TextField fx:id="txtNombre" promptText="Insumo (ej. arroz)" prefWidth="160"/>
+                <TextField fx:id="txtUnidad" promptText="Unidad (kg, litros)" prefWidth="145"/>
+                <TextField fx:id="txtStock" promptText="Cantidad actual" prefWidth="125"/>
+                <TextField fx:id="txtMinimo" promptText="Cantidad mínima" prefWidth="125"/>
+            </children>
+        </HBox>
+        <HBox spacing="8" alignment="CENTER_LEFT">
+            <children>
+                <Button text="Guardar insumo" onAction="#agregar"/>
+                <Button text="Editar cantidad actual" onAction="#editarCantidad"/>
+                <Button text="Eliminar seleccionado" onAction="#eliminar"/>
+                <Button text="Actualizar lista" onAction="#actualizarLista"/>
+            </children>
+        </HBox>
+        <Label text="SUFICIENTE = hay stock. REABASTECER = la cantidad actual es menor o igual al mínimo."/>
+        <TableView fx:id="tabla" VBox.vgrow="ALWAYS"/>
+    </children>
+</VBox>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<!-- Menú y pestaña principal, como la ventana maingui.fxml de SysVentas. -->
+<BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:id="bp" fx:controller="pe.edu.upeu.restaurante.controller.MainGuiController">
+    <top>
+        <MenuBar>
+            <menus>
+                <Menu text="Inicio" mnemonicParsing="false">
+                    <items>
+                        <MenuItem text="Resumen" onAction="#resumen"/>
+                        <MenuItem text="Cerrar sesión" onAction="#cerrarSesion"/>
+                    </items>
+                </Menu>
+                <Menu text="Pedidos" mnemonicParsing="false">
+                    <items>
+                        <MenuItem fx:id="menuCarta" text="Carta / Platos" onAction="#platos"/>
+                        <MenuItem text="Registrar pedido" onAction="#pedidos"/>
+                        <MenuItem text="Historial" onAction="#historial"/>
+                    </items>
+                </Menu>
+                <Menu fx:id="menuGestion" text="Administración" mnemonicParsing="false">
+                    <items>
+                        <MenuItem fx:id="menuMesas" text="Mesas" onAction="#mesas"/>
+                        <MenuItem text="Reservas" onAction="#reservas"/>
+                        <MenuItem fx:id="menuInventario" text="Inventario" onAction="#insumos"/>
+                    </items>
+                </Menu>
+            </menus>
+        </MenuBar>
+    </top>
+    <center>
+        <TabPane fx:id="tabPane" tabClosingPolicy="UNAVAILABLE">
+            <tabs>
+                <Tab fx:id="tabPrincipal" text="Resumen"/>
+            </tabs>
+        </TabPane>
+    </center>
+    <bottom>
+        <HBox spacing="6">
+            <padding><Insets top="5" right="10" bottom="5" left="10"/></padding>
+            <children>
+                <Label fx:id="lblEstado" text="Sistema listo"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Label fx:id="lblPerfil"/>
+            </children>
+        </HBox>
+    </bottom>
+</BorderPane>

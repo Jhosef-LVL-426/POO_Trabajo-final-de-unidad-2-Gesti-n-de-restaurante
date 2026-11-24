@@ -1,0 +1,288 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<architect-project version="1.0" appversion="1.0.9">
+  <project-name>Gestión de Restaurante · Pedidos, atención e inventario</project-name>
+  <print-settings numCopies="1" zoom="1.0" pageNumbersPrinted="true" orientation="1" paperWidth="612.0" paperHeight="792.0" leftBorder="50.0" rightBorder="50.0" topBorder="50.0" bottomBorder="50.0" />
+  <project-data-sources>
+    <data-source id="DS0">
+      <property key="Logical" value="PlayPen Database" />
+    </data-source>
+  </project-data-sources>
+  <source-databases>
+ </source-databases>
+  <target-database id="ppdb" dbcs-ref="DS0">
+    <table id="TAB1" populated="true" UUID="66615f42-ceca-42b5-b524-c6427ea00749" name="Platos de la carta" objectType="TABLE" physicalName="platos">
+      <remarks>Cada fila es un plato que el restaurante ofrece. Su precio actual se copia al detalle cuando se registra un pedido.</remarks>
+      <folder id="FOLTAB11" populated="true" name="Columns" physicalName="Columns" type="1">
+        <column id="COL1" populated="true" UUID="bc92257d-d9d6-465b-bed8-19c1db751e07" autoIncrement="true" autoIncrementSequenceName="platos_id_seq" defaultValue="" name="ID" nullable="0" physicalName="id" precision="19" referenceCount="2" scale="0" sourceDataTypeName="BIGINT" type="-5" primaryKeySeq="0">
+          <remarks>Identificador único que H2 genera para cada registro.</remarks>
+        </column>
+        <column id="COL2" populated="true" UUID="2a58e450-0d11-4cc1-b983-f917eb65c13f" autoIncrement="false" autoIncrementSequenceName="platos_nombre_seq" defaultValue="" name="Nombre del plato" nullable="0" physicalName="nombre" precision="90" referenceCount="1" scale="0" sourceDataTypeName="VARCHAR" type="12">
+          <remarks>Nombre que aparece en la carta. El buscador admite fragmentos con o sin tildes.</remarks>
+        </column>
+        <column id="COL3" populated="true" UUID="26c4c459-e2de-48bb-b1d6-ab25e6d38edc" autoIncrement="false" autoIncrementSequenceName="platos_categoria_seq" defaultValue="" name="Categoría" nullable="0" physicalName="categoria" precision="40" referenceCount="1" scale="0" sourceDataTypeName="VARCHAR" type="12">
+          <remarks>Agrupa los platos en la carta, por ejemplo, postres.</remarks>
+        </column>
+        <column id="COL4" populated="true" UUID="2bf7d62d-00ba-4e12-a824-c7e7156083c6" autoIncrement="false" autoIncrementSequenceName="platos_precio_seq" defaultValue="" name="Precio de carta" nullable="0" physicalName="precio" precision="10" referenceCount="1" scale="2" sourceDataTypeName="DECIMAL" type="3">
+          <remarks>Importe actual de una porción, en soles.</remarks>
+        </column>
+        <column id="COL5" populated="true" UUID="c07d704f-9eb4-4cbc-b717-675fe45a6ac1" autoIncrement="false" autoIncrementSequenceName="platos_disponible_seq" defaultValue="TRUE" name="Disponible para pedir" nullable="1" physicalName="disponible" precision="1" referenceCount="1" scale="0" sourceDataTypeName="BOOLEAN" type="16">
+          <remarks>Solo los platos disponibles aparecen al tomar un pedido.</remarks>
+        </column>
+      </folder>
+      <folder id="FOLTAB13" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3" />
+      <folder id="FOLTAB12" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2" />
+      <folder id="FOLTAB14" populated="true" name="Indices" physicalName="Indices" type="4">
+        <index id="IDX11" populated="true" UUID="6d876829-0679-4504-80b8-942f2e24681c" clustered="false" name="PK_platos" physicalName="PK_platos" primaryKeyIndex="true" unique="true">
+          <index-column id="IDC11" populated="true" UUID="cfbf78d4-f2f7-48af-90bf-84dbef6c20df" ascendingOrDescending="UNSPECIFIED" column-ref="COL1" name="id" physicalName="id" />
+        </index>
+      </folder>
+    </table>
+    <table id="TAB2" populated="true" UUID="9c979d5e-bcd0-456c-bb46-6c8498f70323" name="Mesas del salón" objectType="TABLE" physicalName="mesas">
+      <remarks>Una mesa puede atender varios pedidos a lo largo del tiempo. Al registrar un pedido con mesa, la aplicación comprueba que esté libre y la ocupa.</remarks>
+      <folder id="FOLTAB21" populated="true" name="Columns" physicalName="Columns" type="1">
+        <column id="COL6" populated="true" UUID="79d1a314-58c1-4dca-b51e-a58882bf1e3c" autoIncrement="true" autoIncrementSequenceName="mesas_id_seq" defaultValue="" name="ID" nullable="0" physicalName="id" precision="19" referenceCount="2" scale="0" sourceDataTypeName="BIGINT" type="-5" primaryKeySeq="0">
+          <remarks>Identificador único que H2 genera para cada registro.</remarks>
+        </column>
+        <column id="COL7" populated="true" UUID="26842147-3e6a-4bb4-9928-865ff770a03b" autoIncrement="false" autoIncrementSequenceName="mesas_numero_seq" defaultValue="" name="Número de mesa" nullable="0" physicalName="numero" precision="10" referenceCount="1" scale="0" sourceDataTypeName="INTEGER" type="4">
+          <remarks>Número visible en el salón. Es único y puede diferir del identificador interno.</remarks>
+        </column>
+        <column id="COL8" populated="true" UUID="92e6105b-2059-4303-97e8-355ba60200eb" autoIncrement="false" autoIncrementSequenceName="mesas_capacidad_seq" defaultValue="" name="Capacidad en personas" nullable="0" physicalName="capacidad" precision="10" referenceCount="1" scale="0" sourceDataTypeName="INTEGER" type="4">
+          <remarks>Número de personas para las que está preparada la mesa.</remarks>
+        </column>
+        <column id="COL9" populated="true" UUID="4788f219-9416-41f5-9cfc-bb5e984a270c" autoIncrement="false" autoIncrementSequenceName="mesas_estado_seq" defaultValue="'LIBRE'" name="Estado de la mesa" nullable="1" physicalName="estado" precision="20" referenceCount="1" scale="0" sourceDataTypeName="VARCHAR" type="12">
+          <remarks>LIBRE u OCUPADA. La entrega o cancelación del pedido activo libera su mesa.</remarks>
+        </column>
+      </folder>
+      <folder id="FOLTAB23" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3" />
+      <folder id="FOLTAB22" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2" />
+      <folder id="FOLTAB24" populated="true" name="Indices" physicalName="Indices" type="4">
+        <index id="IDX21" populated="true" UUID="14556e68-3dda-4128-ab9d-ac15e3cc8406" clustered="false" name="PK_mesas" physicalName="PK_mesas" primaryKeyIndex="true" unique="true">
+          <index-column id="IDC21" populated="true" UUID="048539be-ffb7-4a09-9cf5-5fde287dd8d5" ascendingOrDescending="UNSPECIFIED" column-ref="COL6" name="id" physicalName="id" />
+        </index>
+        <index id="IDX22" populated="true" UUID="24dee16f-23f3-45e5-bb29-4d7493d8813c" clustered="false" name="UQ_mesas_numero" physicalName="UQ_mesas_numero" primaryKeyIndex="false" unique="true">
+          <index-column id="IDC22" populated="true" UUID="0fd32e13-e548-4a91-880b-88c2c01dce21" ascendingOrDescending="UNSPECIFIED" column-ref="COL7" name="numero" physicalName="numero" />
+        </index>
+      </folder>
+    </table>
+    <table id="TAB3" populated="true" UUID="600b82f4-b466-4839-87e2-92fae57cb1bb" name="Registro de clientes" objectType="TABLE" physicalName="clientes">
+      <remarks>Directorio previsto en el esquema. Los pedidos y las reservas actuales guardan directamente el nombre de contacto.</remarks>
+      <folder id="FOLTAB31" populated="true" name="Columns" physicalName="Columns" type="1">
+        <column id="COL10" populated="true" UUID="ba559549-300e-41ff-bca4-816b1324f8f3" autoIncrement="true" autoIncrementSequenceName="clientes_id_seq" defaultValue="" name="ID" nullable="0" physicalName="id" precision="19" referenceCount="2" scale="0" sourceDataTypeName="BIGINT" type="-5" primaryKeySeq="0">
+          <remarks>Identificador único que H2 genera para cada registro.</remarks>
+        </column>
+        <column id="COL11" populated="true" UUID="5b87c1b5-4278-41e6-aac9-c42be621d7b8" autoIncrement="false" autoIncrementSequenceName="clientes_nombre_seq" defaultValue="" name="Nombre del cliente" nullable="0" physicalName="nombre" precision="100" referenceCount="1" scale="0" sourceDataTypeName="VARCHAR" type="12">
+          <remarks>Nombre de la persona en el directorio.</remarks>
+        </column>
+        <column id="COL12" populated="true" UUID="03d15186-e1de-4d4e-a4fd-c53e9bc6c240" autoIncrement="false" autoIncrementSequenceName="clientes_telefono_seq" defaultValue="" name="Teléfono" nullable="1" physicalName="telefono" precision="20" referenceCount="1" scale="0" sourceDataTypeName="VARCHAR" type="12">
+          <remarks>Dato de contacto opcional. Se almacena como texto.</remarks>
+        </column>
+      </folder>
+      <folder id="FOLTAB33" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3" />
+      <folder id="FOLTAB32" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2" />
+      <folder id="FOLTAB34" populated="true" name="Indices" physicalName="Indices" type="4">
+        <index id="IDX31" populated="true" UUID="460b7204-b86e-43f0-bb88-4795b79350bc" clustered="false" name="PK_clientes" physicalName="PK_clientes" primaryKeyIndex="true" unique="true">
+          <index-column id="IDC31" populated="true" UUID="3a21dc85-6ed8-41a5-a3a9-77cd9b1ad565" ascendingOrDescending="UNSPECIFIED" column-ref="COL10" name="id" physicalName="id" />
+        </index>
+      </folder>
+    </table>
+    <table id="TAB4" populated="true" UUID="f95c54ed-0218-4725-8176-c3285a70a323" name="Pedidos" objectType="TABLE" physicalName="pedidos">
+      <remarks>Un pedido agrupa uno o más platos. El total es la suma de los subtotales de sus líneas. Las asociaciones del diagrama se resuelven en la aplicación y no están declaradas como claves foráneas en el script H2.</remarks>
+      <folder id="FOLTAB41" populated="true" name="Columns" physicalName="Columns" type="1">
+        <column id="COL13" populated="true" UUID="c71e19db-29a1-45c8-a1ee-c1a4b89cb3c3" autoIncrement="true" autoIncrementSequenceName="pedidos_id_seq" defaultValue="" name="ID" nullable="0" physicalName="id" precision="19" referenceCount="2" scale="0" sourceDataTypeName="BIGINT" type="-5" primaryKeySeq="0">
+          <remarks>Identificador único que H2 genera para cada registro.</remarks>
+        </column>
+        <column id="COL14" populated="true" UUID="0fd22053-7de8-4f48-8230-9df14753e28c" autoIncrement="false" autoIncrementSequenceName="pedidos_fecha_seq" defaultValue="CURRENT_TIMESTAMP" name="Fecha y hora" nullable="1" physicalName="fecha" precision="0" referenceCount="1" scale="0" sourceDataTypeName="TIMESTAMP" type="93">
+          <remarks>Momento en que se registra el pedido.</remarks>
+        </column>
+        <column id="COL15" populated="true" UUID="8b4cd9a8-2b46-4660-b3d6-a71abcc7a4c6" autoIncrement="false" autoIncrementSequenceName="pedidos_mesa_id_seq" defaultValue="" name="Mesa asignada" nullable="1" physicalName="mesa_id" precision="19" referenceCount="2" scale="0" sourceDataTypeName="BIGINT" type="-5">
+          <remarks>Referencia a mesas.id. Puede quedar vacía para registrar un pedido sin mesa.</remarks>
+        </column>
+        <column id="COL16" populated="true" UUID="d7bd042d-9bc4-4acf-abce-c63cdd1857e6" autoIncrement="false" autoIncrementSequenceName="pedidos_cliente_seq" defaultValue="" name="Nombre de atención" nullable="1" physicalName="cliente" precision="100" referenceCount="1" scale="0" sourceDataTypeName="VARCHAR" type="12">
+          <remarks>Texto guardado al tomar el pedido. Si se omite, se registra Cliente general.</remarks>
+        </column>
+        <column id="COL17" populated="true" UUID="8958150c-4b9e-4a1f-a13e-dfc4028fe54c" autoIncrement="false" autoIncrementSequenceName="pedidos_total_seq" defaultValue="" name="Total del pedido" nullable="0" physicalName="total" precision="10" referenceCount="1" scale="2" sourceDataTypeName="DECIMAL" type="3">
+          <remarks>Suma de los subtotales del detalle, en soles.</remarks>
+        </column>
+        <column id="COL18" populated="true" UUID="14726804-2664-4da7-bb36-0ea87c2510ac" autoIncrement="false" autoIncrementSequenceName="pedidos_estado_seq" defaultValue="'PENDIENTE'" name="Estado del pedido" nullable="1" physicalName="estado" precision="20" referenceCount="1" scale="0" sourceDataTypeName="VARCHAR" type="12">
+          <remarks>PENDIENTE, EN PREPARACION, LISTO, ENTREGADO o CANCELADO.</remarks>
+        </column>
+      </folder>
+      <folder id="FOLTAB43" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3" />
+      <folder id="FOLTAB42" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2" />
+      <folder id="FOLTAB44" populated="true" name="Indices" physicalName="Indices" type="4">
+        <index id="IDX41" populated="true" UUID="b2c2169c-e694-4f11-8f3b-eb05589dda5e" clustered="false" name="PK_pedidos" physicalName="PK_pedidos" primaryKeyIndex="true" unique="true">
+          <index-column id="IDC41" populated="true" UUID="0e27e466-0635-4fbd-a0f4-cef4ff52daf6" ascendingOrDescending="UNSPECIFIED" column-ref="COL13" name="id" physicalName="id" />
+        </index>
+      </folder>
+    </table>
+    <table id="TAB5" populated="true" UUID="77cdf7b3-57bb-4253-8c0c-add907138878" name="Detalle del pedido" objectType="TABLE" physicalName="detalle_pedido">
+      <remarks>Una fila representa un plato dentro de un pedido. Guarda el nombre y el precio de ese momento para conservar el detalle histórico.</remarks>
+      <folder id="FOLTAB51" populated="true" name="Columns" physicalName="Columns" type="1">
+        <column id="COL19" populated="true" UUID="4a26c056-ce14-4e37-a63e-c91b304ed677" autoIncrement="true" autoIncrementSequenceName="detalle_pedido_id_seq" defaultValue="" name="ID" nullable="0" physicalName="id" precision="19" referenceCount="2" scale="0" sourceDataTypeName="BIGINT" type="-5" primaryKeySeq="0">
+          <remarks>Identificador único que H2 genera para cada registro.</remarks>
+        </column>
+        <column id="COL20" populated="true" UUID="7a34e909-2ffd-4cd8-b715-e8546865758f" autoIncrement="false" autoIncrementSequenceName="detalle_pedido_pedido_id_seq" defaultValue="" name="Pedido asociado" nullable="0" physicalName="pedido_id" precision="19" referenceCount="2" scale="0" sourceDataTypeName="BIGINT" type="-5">
+          <remarks>Referencia al identificador del pedido al que pertenece esta línea.</remarks>
+        </column>
+        <column id="COL21" populated="true" UUID="8c0fd243-a580-4293-bc26-1acab9083c38" autoIncrement="false" autoIncrementSequenceName="detalle_pedido_plato_id_seq" defaultValue="" name="Plato de la carta" nullable="0" physicalName="plato_id" precision="19" referenceCount="2" scale="0" sourceDataTypeName="BIGINT" type="-5">
+          <remarks>Identificador del plato seleccionado al tomar el pedido.</remarks>
+        </column>
+        <column id="COL22" populated="true" UUID="1a682c8d-0821-4993-8eb8-4b4b9d7794c4" autoIncrement="false" autoIncrementSequenceName="detalle_pedido_plato_seq" defaultValue="" name="Nombre al pedir" nullable="0" physicalName="plato" precision="90" referenceCount="1" scale="0" sourceDataTypeName="VARCHAR" type="12">
+          <remarks>Copia del nombre del plato al registrar la venta.</remarks>
+        </column>
+        <column id="COL23" populated="true" UUID="2b4632d0-5532-405b-a06a-5e4bea38b5f8" autoIncrement="false" autoIncrementSequenceName="detalle_pedido_cantidad_seq" defaultValue="" name="Porciones" nullable="0" physicalName="cantidad" precision="10" referenceCount="1" scale="0" sourceDataTypeName="INTEGER" type="4">
+          <remarks>Cantidad entera mayor que cero.</remarks>
+        </column>
+        <column id="COL24" populated="true" UUID="497afc60-1ae6-4099-8464-55dd8a60f912" autoIncrement="false" autoIncrementSequenceName="detalle_pedido_precio_seq" defaultValue="" name="Precio al pedir" nullable="0" physicalName="precio" precision="10" referenceCount="1" scale="2" sourceDataTypeName="DECIMAL" type="3">
+          <remarks>Precio de una porción en el momento del pedido.</remarks>
+        </column>
+        <column id="COL25" populated="true" UUID="5158baaf-5d5f-46ac-99f5-51d8675fcc73" autoIncrement="false" autoIncrementSequenceName="detalle_pedido_subtotal_seq" defaultValue="" name="Subtotal de la línea" nullable="0" physicalName="subtotal" precision="10" referenceCount="1" scale="2" sourceDataTypeName="DECIMAL" type="3">
+          <remarks>Cantidad por precio. Dos porciones a S/ 22.00 suman S/ 44.00.</remarks>
+        </column>
+      </folder>
+      <folder id="FOLTAB53" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3" />
+      <folder id="FOLTAB52" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2" />
+      <folder id="FOLTAB54" populated="true" name="Indices" physicalName="Indices" type="4">
+        <index id="IDX51" populated="true" UUID="c8cf9ba1-bffc-4939-8c8b-17a2899cb855" clustered="false" name="PK_detalle_pedido" physicalName="PK_detalle_pedido" primaryKeyIndex="true" unique="true">
+          <index-column id="IDC51" populated="true" UUID="d2fd295d-bcce-48a1-ab94-e1c1cdfc7a28" ascendingOrDescending="UNSPECIFIED" column-ref="COL19" name="id" physicalName="id" />
+        </index>
+      </folder>
+    </table>
+    <table id="TAB6" populated="true" UUID="7153985d-2e1e-4301-8f65-e95aeaa65ba6" name="Reservas" objectType="TABLE" physicalName="reservas">
+      <remarks>Una reserva registra quién viene, cuándo y cuántas personas asistirán. El formulario no asigna una mesa específica.</remarks>
+      <folder id="FOLTAB61" populated="true" name="Columns" physicalName="Columns" type="1">
+        <column id="COL26" populated="true" UUID="cfdcfb60-1ba6-4c93-8a86-1639ebef2894" autoIncrement="true" autoIncrementSequenceName="reservas_id_seq" defaultValue="" name="ID" nullable="0" physicalName="id" precision="19" referenceCount="2" scale="0" sourceDataTypeName="BIGINT" type="-5" primaryKeySeq="0">
+          <remarks>Identificador único que H2 genera para cada registro.</remarks>
+        </column>
+        <column id="COL27" populated="true" UUID="b4d41001-719b-406c-9214-c949ce55817e" autoIncrement="false" autoIncrementSequenceName="reservas_cliente_seq" defaultValue="" name="Titular de la reserva" nullable="0" physicalName="cliente" precision="100" referenceCount="1" scale="0" sourceDataTypeName="VARCHAR" type="12">
+          <remarks>Nombre que se usa para localizar la reserva.</remarks>
+        </column>
+        <column id="COL28" populated="true" UUID="452fdfc2-1e86-4578-bfdc-250473660cac" autoIncrement="false" autoIncrementSequenceName="reservas_telefono_seq" defaultValue="" name="Teléfono de contacto" nullable="1" physicalName="telefono" precision="20" referenceCount="1" scale="0" sourceDataTypeName="VARCHAR" type="12">
+          <remarks>Dato opcional para comunicarse con el titular.</remarks>
+        </column>
+        <column id="COL29" populated="true" UUID="7926a730-c985-401e-8daf-b4c5aca8e64b" autoIncrement="false" autoIncrementSequenceName="reservas_fecha_seq" defaultValue="" name="Día de la reserva" nullable="0" physicalName="fecha" precision="0" referenceCount="1" scale="0" sourceDataTypeName="DATE" type="91">
+          <remarks>Fecha de la visita, hoy o un día posterior.</remarks>
+        </column>
+        <column id="COL30" populated="true" UUID="fc4a42f1-c854-4208-af11-ac62768f8a88" autoIncrement="false" autoIncrementSequenceName="reservas_hora_seq" defaultValue="" name="Hora de llegada" nullable="0" physicalName="hora" precision="10" referenceCount="1" scale="0" sourceDataTypeName="VARCHAR" type="12">
+          <remarks>Hora de la visita en formato de 24 horas, por ejemplo 19:30.</remarks>
+        </column>
+        <column id="COL31" populated="true" UUID="241a361d-4b2b-4bb0-ae09-31466f2cfdc8" autoIncrement="false" autoIncrementSequenceName="reservas_personas_seq" defaultValue="" name="Número de personas" nullable="0" physicalName="personas" precision="10" referenceCount="1" scale="0" sourceDataTypeName="INTEGER" type="4">
+          <remarks>Cantidad entera mayor que cero.</remarks>
+        </column>
+        <column id="COL32" populated="true" UUID="7b88e695-f415-48e1-93a3-a5da8e37cd51" autoIncrement="false" autoIncrementSequenceName="reservas_estado_seq" defaultValue="'CONFIRMADA'" name="Estado de la reserva" nullable="1" physicalName="estado" precision="20" referenceCount="1" scale="0" sourceDataTypeName="VARCHAR" type="12">
+          <remarks>CONFIRMADA al registrarla. Al cancelar, la fila se conserva como CANCELADA.</remarks>
+        </column>
+      </folder>
+      <folder id="FOLTAB63" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3" />
+      <folder id="FOLTAB62" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2" />
+      <folder id="FOLTAB64" populated="true" name="Indices" physicalName="Indices" type="4">
+        <index id="IDX61" populated="true" UUID="553e060a-4e8a-4012-8ee7-5c68ac7282e4" clustered="false" name="PK_reservas" physicalName="PK_reservas" primaryKeyIndex="true" unique="true">
+          <index-column id="IDC61" populated="true" UUID="fa548383-72bb-4ac5-ad7a-6592f97c9c49" ascendingOrDescending="UNSPECIFIED" column-ref="COL26" name="id" physicalName="id" />
+        </index>
+      </folder>
+    </table>
+    <table id="TAB7" populated="true" UUID="8ff20c03-7689-4631-8cef-44dfde5ec40e" name="Inventario de insumos" objectType="TABLE" physicalName="insumos">
+      <remarks>Cada insumo tiene una existencia actual y un mínimo. La pantalla señala REABASTECER cuando la existencia es igual o inferior al mínimo.</remarks>
+      <folder id="FOLTAB71" populated="true" name="Columns" physicalName="Columns" type="1">
+        <column id="COL33" populated="true" UUID="9880a7a6-df53-4fb1-8e73-697e7899a94d" autoIncrement="true" autoIncrementSequenceName="insumos_id_seq" defaultValue="" name="ID" nullable="0" physicalName="id" precision="19" referenceCount="2" scale="0" sourceDataTypeName="BIGINT" type="-5" primaryKeySeq="0">
+          <remarks>Identificador único que H2 genera para cada registro.</remarks>
+        </column>
+        <column id="COL34" populated="true" UUID="9cd526b5-8025-450d-8f03-d91642fbaae7" autoIncrement="false" autoIncrementSequenceName="insumos_nombre_seq" defaultValue="" name="Nombre del insumo" nullable="0" physicalName="nombre" precision="90" referenceCount="1" scale="0" sourceDataTypeName="VARCHAR" type="12">
+          <remarks>Producto que se controla, por ejemplo, harina.</remarks>
+        </column>
+        <column id="COL35" populated="true" UUID="8998127a-4b17-449b-8f51-77313de936b8" autoIncrement="false" autoIncrementSequenceName="insumos_unidad_seq" defaultValue="" name="Unidad de medida" nullable="0" physicalName="unidad" precision="20" referenceCount="1" scale="0" sourceDataTypeName="VARCHAR" type="12">
+          <remarks>Unidad utilizada para el stock y su mínimo, por ejemplo, kg o litros.</remarks>
+        </column>
+        <column id="COL36" populated="true" UUID="d2eaf126-062e-4821-892b-976c6cba9c44" autoIncrement="false" autoIncrementSequenceName="insumos_stock_seq" defaultValue="" name="Existencia actual" nullable="0" physicalName="stock" precision="10" referenceCount="1" scale="2" sourceDataTypeName="DECIMAL" type="3">
+          <remarks>Cantidad disponible expresada en la unidad elegida.</remarks>
+        </column>
+        <column id="COL37" populated="true" UUID="d4272871-104f-49b3-a925-57f47ea27a01" autoIncrement="false" autoIncrementSequenceName="insumos_minimo_seq" defaultValue="" name="Cantidad mínima" nullable="0" physicalName="minimo" precision="10" referenceCount="1" scale="2" sourceDataTypeName="DECIMAL" type="3">
+          <remarks>Umbral de reposición en la misma unidad que las existencias.</remarks>
+        </column>
+      </folder>
+      <folder id="FOLTAB73" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3" />
+      <folder id="FOLTAB72" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2" />
+      <folder id="FOLTAB74" populated="true" name="Indices" physicalName="Indices" type="4">
+        <index id="IDX71" populated="true" UUID="40e5f464-5a94-46b9-b336-c9b3bd190524" clustered="false" name="PK_insumos" physicalName="PK_insumos" primaryKeyIndex="true" unique="true">
+          <index-column id="IDC71" populated="true" UUID="fc88da73-638f-43da-97cb-f37817b333c2" ascendingOrDescending="UNSPECIFIED" column-ref="COL33" name="id" physicalName="id" />
+        </index>
+      </folder>
+    </table>
+    <relationships>
+      <relationship id="REL1" populated="true" UUID="7e781175-1b86-44ea-b0e0-c3ecc61e4f07" deferrability="7" deleteRule="3" fk-table-ref="TAB4" fkCardinality="7" identifying="false" name="FK_pedidos_mesa_id" physicalName="FK_pedidos_mesa_id" pk-table-ref="TAB2" pkCardinality="2" updateRule="3">
+        <column-mapping id="CMPREL1" populated="true" UUID="7824b976-6bac-447c-9957-c25ee2601a15" fk-column-ref="COL15" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL6" />
+      </relationship>
+      <relationship id="REL2" populated="true" UUID="2b9906a0-164f-4e66-81f2-d353f8904b7d" deferrability="7" deleteRule="3" fk-table-ref="TAB5" fkCardinality="7" identifying="false" name="FK_detalle_pedido_pedido_id" physicalName="FK_detalle_pedido_pedido_id" pk-table-ref="TAB4" pkCardinality="2" updateRule="3">
+        <column-mapping id="CMPREL2" populated="true" UUID="54dbe00a-e1f7-4fee-9cd0-1c9cbe91b061" fk-column-ref="COL20" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL13" />
+      </relationship>
+      <relationship id="REL3" populated="true" UUID="39a2cc79-8bb4-429b-855c-40ef66831478" deferrability="7" deleteRule="3" fk-table-ref="TAB5" fkCardinality="7" identifying="false" name="FK_detalle_pedido_plato_id" physicalName="FK_detalle_pedido_plato_id" pk-table-ref="TAB1" pkCardinality="2" updateRule="3">
+        <column-mapping id="CMPREL3" populated="true" UUID="0a33b785-2dd6-4eb9-90eb-2f6956469f23" fk-column-ref="COL21" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL1" />
+      </relationship>
+    </relationships>
+  </target-database>
+  <ddl-generator type="ca.sqlpower.architect.ddl.GenericDDLGenerator" allow-connection="false"> </ddl-generator>
+  <liquibase-settings useSeparateChangeSets="false" generateId="false" idStart="1" />
+  <create-kettle-job-settings filePath="" jobName="" schemaName="" kettleJoinType="0" savingToFile="true" />
+  <play-pen zoom="0.8" viewportX="0" viewportY="0" relationship-style="rectilinear" names-displayLogicalNames="true" showPrimaryTag="true" showForeignTag="true" showAlternateTag="true" columnVisibility="ALL" relationshipLabelVisibility="true">
+    <table-pane table-ref="TAB1" x="415" y="290" bgColor="0xd8e9fa" fgColor="0x243645" rounded="false" dashed="false" />
+    <table-pane table-ref="TAB2" x="28" y="40" bgColor="0xd8e9fa" fgColor="0x243645" rounded="false" dashed="false" />
+    <table-pane table-ref="TAB3" x="28" y="555" bgColor="0xf5e8ca" fgColor="0x243645" rounded="false" dashed="false" />
+    <table-pane table-ref="TAB4" x="415" y="40" bgColor="0xc9e9db" fgColor="0x243645" rounded="false" dashed="false" />
+    <table-pane table-ref="TAB5" x="905" y="145" bgColor="0xc9e9db" fgColor="0x243645" rounded="false" dashed="false" />
+    <table-pane table-ref="TAB6" x="415" y="555" bgColor="0xf5e8ca" fgColor="0x243645" rounded="false" dashed="false" />
+    <table-pane table-ref="TAB7" x="905" y="555" bgColor="0xf5e8ca" fgColor="0x243645" rounded="false" dashed="false" />
+    <table-link relationship-ref="REL1" pkConnection="0.5" fkConnection="0.5" rLineColor="0x555555" pkLabelText="Mesa opcional" fkLabelText="Pedidos atendidos" orientation="72" />
+    <table-link relationship-ref="REL2" pkConnection="0.5" fkConnection="0.5" rLineColor="0x555555" pkLabelText="Pedido" fkLabelText="Líneas del pedido" orientation="72" />
+    <table-link relationship-ref="REL3" pkConnection="0.5" fkConnection="0.5" rLineColor="0x555555" pkLabelText="Plato elegido" fkLabelText="Líneas de consumo" orientation="72" />
+  </play-pen>
+  <critic-manager>
+    <critic-grouping platformType="Generic" enabled="true">
+      <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.PrimaryKeyCritic" severity="ERROR" />
+      <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.RelationshipMappingTypeCritic" severity="ERROR" />
+      <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.EmptyRelationshipCritic" severity="ERROR" />
+      <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.AlphaNumericNameCritic" severity="ERROR" />
+      <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.AlphaNumericSequenceNameCritic" severity="ERROR" />
+      <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.SetDefaultOnColumnWithNoDefaultCritic" severity="ERROR" />
+      <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.SetNullOnNonNullableColumnCritic" severity="ERROR" />
+      <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.DuplicateNameCritic" severity="ERROR" />
+    </critic-grouping>
+    <critic-grouping platformType="DB2" enabled="true">
+      <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.DB2UnsupportedFeaturesCritic" severity="ERROR" />
+    </critic-grouping>
+    <critic-grouping platformType="H2" enabled="true">
+      <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.H2UnsupportedFeaturesCritic" severity="ERROR" />
+    </critic-grouping>
+    <critic-grouping platformType="HSQLDB" enabled="true">
+      <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.HSQLDBUnsupportedFeaturesCritic" severity="ERROR" />
+    </critic-grouping>
+    <critic-grouping platformType="MySQL" enabled="true">
+      <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.MySQLCommentCritic" severity="ERROR" />
+      <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.MySQLReservedWordsCritic" severity="ERROR" />
+      <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.MySQLUnsupportedFeaturesCritic" severity="ERROR" />
+    </critic-grouping>
+    <critic-grouping platformType="Oracle" enabled="true">
+      <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.OraclePhysicalNameCritic" severity="ERROR" />
+      <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.OracleReservedWordsCritic" severity="ERROR" />
+      <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.OracleUnsupportedFeaturesCritic" severity="ERROR" />
+    </critic-grouping>
+    <critic-grouping platformType="PostgreSQL" enabled="true">
+      <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.PostgreSQLReservedWordsCritic" severity="ERROR" />
+    </critic-grouping>
+    <critic-grouping platformType="SQL Server" enabled="true">
+      <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.SQLServerUnsupportedFeaturesCritic" severity="ERROR" />
+      <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.SQLServerReservedWordsCritic" severity="ERROR" />
+    </critic-grouping>
+    <critic-grouping platformType="SQL Server 2000" enabled="true">
+      <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.SQLServer2000UnsupportedFeaturesCritic" severity="ERROR" />
+    </critic-grouping>
+    <critic-grouping platformType="SQL Server 2005" enabled="true">
+      <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.SQLServer2005UnsupportedFeaturesCritic" severity="ERROR" />
+    </critic-grouping>
+  </critic-manager>
+  <profiles topNCount="10">
+  </profiles>
+  <olap>
+  </olap>
+  <olap-gui>
+  </olap-gui>
+</architect-project>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="pe.edu.upeu.restaurante.controller.MesaController" spacing="10">
+    <padding><Insets top="12" right="12" bottom="12" left="12"/></padding>
+    <children>
+        <Label text="Mesas" styleClass="titulo"/>
+        <HBox spacing="8" alignment="CENTER_LEFT">
+            <children>
+                <TextField fx:id="txtNumero" promptText="Número de mesa" prefWidth="140"/>
+                <TextField fx:id="txtCapacidad" promptText="Capacidad" prefWidth="130"/>
+                <Button text="Agregar mesa" onAction="#agregar"/>
+            </children>
+        </HBox>
+        <HBox spacing="8" alignment="CENTER_LEFT">
+            <children>
+                <Button text="Cambiar disponibilidad" onAction="#cambiar"/>
+                <Button text="Eliminar mesa" onAction="#eliminar"/>
+            </children>
+        </HBox>
+        <TableView fx:id="tabla" VBox.vgrow="ALWAYS"/>
+    </children>
+</VBox>

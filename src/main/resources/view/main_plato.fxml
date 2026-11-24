@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="pe.edu.upeu.restaurante.controller.PlatoController" spacing="10">
+    <padding><Insets top="12" right="12" bottom="12" left="12"/></padding>
+    <children>
+        <Label text="Platos" styleClass="titulo"/>
+        <HBox spacing="8" alignment="CENTER_LEFT">
+            <children>
+                <TextField fx:id="txtNombre" promptText="Nombre del plato" prefWidth="180"/>
+                <TextField fx:id="txtCategoria" promptText="Categoría" prefWidth="150"/>
+                <TextField fx:id="txtPrecio" promptText="Precio S/" prefWidth="105"/>
+            </children>
+        </HBox>
+        <HBox spacing="8" alignment="CENTER_LEFT">
+            <children>
+                <CheckBox fx:id="chkDisponible" text="Disponible" selected="true"/>
+                <Button text="Guardar" onAction="#guardar"/>
+                <Button text="Limpiar" onAction="#limpiar"/>
+                <Button text="Eliminar seleccionado" onAction="#eliminar"/>
+            </children>
+        </HBox>
+        <HBox spacing="8" alignment="CENTER_LEFT">
+            <Label text="Buscar plato"/>
+            <TextField fx:id="txtBuscar" promptText="Nombre o parte del nombre" prefWidth="230"
+                       accessibleText="Buscar plato por nombre"/>
+        </HBox>
+        <Label text="Doble clic en una fila para editar el plato."/>
+        <TableView fx:id="tabla" VBox.vgrow="ALWAYS"/>
+    </children>
+</VBox>
